@@ -28,5 +28,5 @@ To get started with BirdBuzz, follow these steps:
 - Python 3.x
 - pip (Python package installer)
 
-### Screenshots
-()
+
+
