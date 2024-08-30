@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="text-center display-4 mb-4">Search Tweets!</h1>
+    
+    <form class="row g-3" method='POST'>
+        {% csrf_token %}
+        <div class="">
+            <input type="input" class="form-control" name="search" placeholder="Search tweets...">
+            <button type="submit" class="btn btn-secondary">Submit</button>
+          </div>
+      </form>
+    
+    {% if search %}
+    <h3 class="mt-5">You Searched For: <span class="text-primary">{{ search }}</span></h3>
+    
+    {% for tweet in searched %}
+    <div class="tweet-card mt-4 p-3 rounded shadow-sm border">
+        <div class="d-flex align-items-center">
+            <div class="profile-img-wrapper">
+                {% if tweet.user.profile.profile_image %}
+                <img src="{{ tweet.user.profile.profile_image.url }}" class="rounded-circle border border-secondary" alt="{{ tweet.user.username }}">
+                {% else %}
+                <img src="{% static 'images/default_profile_pic.png' %}" class="rounded-circle border border-secondary" alt="{{ tweet.user.username }}">
+                {% endif %}
+            </div>
+            
+            <div class="tweet-content flex-grow-1 ms-3">
+                <p class="mb-1">{{ tweet.body }}</p>
+                <div class=" d-flex align-items-center text-muted">
+                    <span class="me-2">({{ tweet.created_at|date:"M d, Y H:i" }}) by <strong>@{{ tweet.user.username }}</strong></span>
+                    <a href="{% url 'tweet_like' tweet.id %}" class="text-danger me-3">
+                        {% if user in tweet.likes.all %}
+                        <i class="fa-solid fa-heart"></i>
+                        {% else %}
+                        <i class="fa fa-heart-o"></i>
+                        {% endif %}
+                        {{ tweet.number_of_likes }}
+                    </a>
+                    <a href="{% url 'tweet_share' tweet.id %}" class="text-secondary">
+                        <i class="fa-solid fa-share"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+    {% endif %}
+</div>
+
+
+{% endblock %}

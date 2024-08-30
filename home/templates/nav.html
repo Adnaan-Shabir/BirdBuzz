@@ -1,0 +1,55 @@
+{% load static %}
+<nav>
+    <ul class="sidebar">
+      <li onclick="hideSidebar()"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></a></li>
+      <li><a href="{% url 'home' %}">
+        {% comment %} <img src="{% static 'images/logo-black.png' %}" style='width:50px;' alt="logo"> {% endcomment %}
+        <i class="fa-sharp fa-solid fa-feather" style="color: #000000;"></i>
+        BirdBuzz</a></li>
+        <li><a href="{% url 'search' %}">Search</a></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'profile_list' %}">Accounts</a></li>
+      <li><a href="{% url 'profile' request.user.id %}">Profile</a></li>
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+      {% else %}
+      <li><a href="{% url 'register' %}">Register</a></li>
+      <li><a href="{% url 'login' %}">Login</a></li>
+      {% endif %}
+    </ul>
+    <ul>
+      <li><a href="{% url 'home' %}">
+        {% comment %} <img src="{% static 'images/logo-black.png' %}" style='width:50px;' alt="logo"> {% endcomment %}
+        <i class="fa-sharp fa-solid fa-feather" style="color: #000000;"></i>BirdBuzz</a></li>
+        <li class="hideOnMobile"><a href="{% url 'search' %}"><i class="fa-solid fa-magnifying-glass fa-rotate-90" style="color: #000000;"></i> &nbsp; Search</a></li>
+      {% if user.is_authenticated %}
+      <li class="hideOnMobile"><a href="{% url 'profile_list' %}"><i class="fa-solid fa-users" style="color: #000000;"></i>&nbsp;Accounts</a></li>
+      {% if user.profile.profile_image %}
+      <li class="hideOnMobile"><a href="{% url 'profile' request.user.id %}">
+        <img src="{{ user.profile.profile_image.url}}" class='img-fluid rounded-circle' width=30 alt="Profile"></a>
+      </li>
+      {% else %}
+      <li class="hideOnMobile"><a href="{% url 'profile' request.user.id %}">
+        <img src="{% static 'images/default_profile_pic.png' %}" class='img-fluid rounded-circle' width=30 alt="Profile"></a>
+      </li>
+      {% endif %}
+      <li class="hideOnMobile"><a href="{% url 'logout' %}">Logout&nbsp;<i class="fa-solid fa-right-from-bracket" style="color: #000000;"></i></a></li>
+      {% else %}
+      <li class="hideOnMobile"><a href="{% url 'register' %}"><i class="fa-solid fa-address-card" style="color: #000000;"></i>&nbsp;Register</a></li>
+      <li class="hideOnMobile"><a href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket fa-rotate-180" style="color: #000000;"></i> &nbsp; Login</a></li>
+      {% endif %}
+      <li class="menu-button" onclick="showSidebar()"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg></a></li>
+    </ul>
+  </nav>
+  
+  <script>
+    function showSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.style.display = 'flex';
+    }
+  
+    function hideSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.style.display = 'none';
+    }
+  </script>
+  

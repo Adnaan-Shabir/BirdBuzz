@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<p class="text-success text-center m-5">You are already logged in!</p>
+{% else %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-4">
+            <div class="card shadow-sm rounded-lg p-4">
+                <h1 class="text-center mb-4">Login</h1>
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="********" required>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <p class="mb-0">Don't have an account? <a href="{% url 'register' %}" class="text-primary">Register here</a></p>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}
+
+

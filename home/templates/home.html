@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <!-- Tweet Form Section - Mobile View (Collapsible) -->
+    <div class="col-12 d-lg-none mb-4">
+      {% if form %}
+      <button class="btn btn-secondary w-100 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#tweetFormMobile" aria-expanded="false" aria-controls="tweetFormMobile">
+        <i class="fa-solid fa-feather"></i> Tweet
+      </button>
+      <div class="collapse" id="tweetFormMobile">
+        <div class="shadow p-3 rounded">
+          <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-secondary w-100 mt-2">Post tweet!</button>
+          </form>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Tweets Section -->
+    <div class="col-lg-8 col-md-7 col-sm-12 mb-4">
+      {% for tweet in tweets %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="row">
+            <!-- Profile Image -->
+            <div class="col-auto">
+              {% if tweet.user.profile.profile_image %}
+              <img
+                src="{{ tweet.user.profile.profile_image.url }}"
+                width="50"
+                height="50"
+                class="rounded-circle"
+                alt="{{ tweet.user.username }}"
+              />
+              {% else %}
+              <img
+                src="{% static 'images/default_profile_pic.png' %}"
+                width="50"
+                height="50"
+                class="rounded-circle"
+                alt="{{ tweet.user.username }}"
+              />
+              {% endif %}
+            </div>
+            <!-- User Info and Tweet Content -->
+            <div class="col">
+              <div>
+                <strong>{{ tweet.user.profile.get_full_name|default:tweet.user.username }}</strong>
+                <span class="text-muted">@{{ tweet.user.username }}</span>
+                <span class="text-muted"> · {{ tweet.created_at|date:"M d" }}</span>
+              </div>
+              <p class="mb-0 mt-2" style="white-space: pre-wrap;">{{ tweet.body }}</p>
+            </div>
+          </div>
+          <!-- Interaction Buttons -->
+          <div class="row mt-2">
+            <div class="col text-start">
+              {{ tweet.number_of_likes }}
+              {% if user in tweet.likes.all %}
+              <a href="{% url 'tweet_like' tweet.id %}">
+                <i class="fa-solid fa-heart" style="color: red"></i></a>
+              {% else %}
+              <a href="{% url 'tweet_like' tweet.id %}">
+                <i class="fa-regular fa-heart"></i></a>
+              {% endif %}
+              &nbsp;
+              <a href="{% url 'tweet_share' tweet.id %}">
+                <i class="fa-solid fa-retweet" style="color: gray"></i></a>
+              &nbsp;
+              <a href="#">
+                <i class="fa-regular fa-comment" style="color: gray"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Tweet Form Section - Larger Screens -->
+    <div class="col-lg-4 col-md-5 d-none d-lg-block">
+      {% if form %}
+      <form method="POST" class="shadow p-4 rounded">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-secondary w-100 mt-2">
+          <i class="fa-solid fa-feather"></i> Tweet!
+        </button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
