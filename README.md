@@ -31,16 +31,16 @@ To get started with BirdBuzz, follow these steps:
 ## Screenshots
 
 ### Home Page
-![Home Page](screenshots/home_page.png)
+![Home Page](home_page.png)
 
 ### Tweet Posting
-![Tweet Posting](screenshots/tweet_posting.png)
+![Tweet Posting](tweet_posting.png)
 
 ### User Profile
-![User Profile](screenshots/user_profile.png)
+![User Profile](user_profile.png)
 
 ### Search Results
-![Search Results](screenshots/search_results.png)
+![Search Results](search_results.png)
 
 
 
